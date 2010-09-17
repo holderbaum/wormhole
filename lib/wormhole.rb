@@ -8,4 +8,5 @@ module Wormhole #:nodoc:
 	end
 end
 
-require 'wormhole'
+require 'wormhole/wormhole'
+require 'wormhole/config'
