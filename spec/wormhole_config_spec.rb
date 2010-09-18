@@ -2,17 +2,16 @@ require 'spec_helper'
 
 describe Wormhole::Config do
   
-  before(:each) do
-    @config = Wormhole::Config.new 
+  before { @config = Wormhole::Config.new }
+
+  context "when created" do
+    specify { @config.wormhole_size.should == 0 }
   end
 
-  it "should be empty on creation" do
-    @config.wormhole_size.should == 0
+  context "when uninitalized value requested" do
+    specify { @config[:new_value].should_not be_nil }
+    specify { @config[:another_value].class.should == Wormhole::Config }
   end
 
-  it "should respond like a hash to []" do
-    @config[:index] = "value"
-    @config[:index].should == "value"
-  end
 end
 
