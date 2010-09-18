@@ -4,6 +4,14 @@ describe Wormhole::Config do
   
   before { @config = Wormhole::Config.new }
 
+  context "when a _attr_name_= is called, it" do
+    specify { lambda { @config.foo = "bar" }.should_not raise_error(NoMethodError) }
+  end
+
+  context "when the attr is called again, it" do
+    before { @config.foo = "bar" }
+    specify { @config.foo.should == "bar" }
+  end
 
   #context "when created" do
     #specify { @config.wormhole_size.should == 0 }
