@@ -9,7 +9,7 @@ module Wormhole
     end
 
     def wormhole_size
-      @hash.select{|k,v| v.class != Wormhole::Config}.size
+      @hash.select{|k,v| v.class != Wormhole::Config or v.wormhole_size > 0 }.size
     end
 
     def []=(key,value)
