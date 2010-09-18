@@ -23,5 +23,13 @@ describe Wormhole::Config do
     specify { @config.wormhole_size.should == 0 }
   end
 
+  context "when one element was created implicit, but gets a value later" do
+    before { @config[:element] }
+    specify { @config.wormhole_size.should == 0 }
+    specify do 
+      @config[:element][:foo] = "bar"
+      @config.wormhole_size.should == 1
+    end
+  end
 end
 
