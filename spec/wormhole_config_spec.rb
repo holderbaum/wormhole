@@ -24,6 +24,17 @@ describe Wormhole::Config do
     specify { @config.foo.bar.om.should == "nom" }
     
   end
+
+  context "when _attr_name_? for a never touched attr is called, it" do
+    specify { @config.barfooze?.should be_false }
+  end
+
+  context "when _attr_name_? for a setted attr is called, it" do
+    before { @config.barfooze = "noodles" }
+    specify { @config.barfooze?.should be_true }
+    
+  end
+
   #context "when created" do
     #specify { @config.wormhole_size.should == 0 }
   #end
