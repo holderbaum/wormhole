@@ -35,6 +35,11 @@ describe Wormhole::Config do
     
   end
 
+  context "when _attr_name_? of a implicit created attr is called, it" do
+    before { @config.bar.fooze = "boofar"}
+    specify { @config.bar?.should be_false }
+  end
+
   #context "when created" do
     #specify { @config.wormhole_size.should == 0 }
   #end
