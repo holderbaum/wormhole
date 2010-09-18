@@ -13,6 +13,17 @@ describe Wormhole::Config do
     specify { @config.foo.should == "bar" }
   end
 
+  context "when attributes are concatenated, they" do
+    specify do
+      lambda { @config.foo.bar.om = "nom" }.should_not raise_error(NoMethodError)
+    end
+  end
+
+  context "when attributes are concatenated called, they" do
+    before { @config.foo.bar.om = "nom" }
+    specify { @config.foo.bar.om.should == "nom" }
+    
+  end
   #context "when created" do
     #specify { @config.wormhole_size.should == 0 }
   #end
