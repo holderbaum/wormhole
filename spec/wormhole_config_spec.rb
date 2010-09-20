@@ -77,46 +77,5 @@ describe Wormhole::Config do
     specify { @config.foo?.should be_true }
     
   end
-  
-  #context "when created" do
-    #specify { @config.wormhole_size.should == 0 }
-  #end
 
-  #context "when uninitalized value requested" do
-    #specify { @config[:new_value].should_not be_nil }
-    #specify { @config[:another_value].class.should == Wormhole::Config }
-  #end
-
-  #context "when one element added" do
-    #before { @config[:e1] = "elem" }
-    #specify { @config.wormhole_size.should == 1 }
-  #end
-
-  #context "when one element was created implicit" do
-    #before { @config[:element] }
-    #specify { @config.wormhole_size.should == 0 }
-  #end
-
-  #context "when one element was created implicit, but gets a value later" do
-    #before { @config[:element] }
-    #specify { @config.wormhole_size.should == 0 }
-    #specify do 
-      #@config[:element][:foo] = "bar"
-      #@config.wormhole_size.should == 1
-    #end
-  #end
-
-  #context "implicit value should not be counted by set?" do
-    #specify { @config[:aa].should_not be_set }
-  #end
-
-  #context "implicit value should be counted by set? when used" do
-    #before do
-      #@config[:foo]
-      #@config[:foo][:bar] = 2
-    #end
-
-    #specify { @config[:foo].should be_set }
-  #end
 end
-
