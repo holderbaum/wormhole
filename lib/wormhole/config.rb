@@ -16,15 +16,7 @@ module Wormhole
         @hash[meth.to_s[0..-2].to_sym] = args[0]
       elsif meth.to_s =~ /[a-zA-Z0-9]*\?/
         meth = meth.to_s[0..-2].to_sym
-        if @hash[meth].nil?
-          false
-        else
-          if @hash[meth].class == Wormhole::Config and @hash[meth].empty?
-            false
-          else
-            true
-          end
-        end
+        (value = @hash[meth]) && !(value.is_a?(Config) && value.empty?)
       elsif @hash[meth].nil?
         @hash[meth] = self.class.new
       else
