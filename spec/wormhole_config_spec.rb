@@ -83,7 +83,14 @@ describe Wormhole::Config do
       @config.foo.om?
     end
     specify { @config.foo?.should be_true }
-    
+  end
+
+  context "when to_has without nesting is called, it" do
+    before do
+      @config.foo = 23
+      @config.bar = "42"
+    end
+    specify { @config.to_hash.should == { :foo => 23, :bar => "42" } } 
   end
 
 end

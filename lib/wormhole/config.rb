@@ -28,6 +28,10 @@ module Wormhole
       end
     end
 
+    def to_hash
+      @hash
+    end
+
     def _empty_value?(value) # :nodoc:
       value.is_a?(Config) && value.empty?
     end
