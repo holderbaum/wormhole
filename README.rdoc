@@ -9,4 +9,5 @@
 
 * Seed Wormhole::Config with (nested) values:
     Wormhole::Config.new(:key => { :subkey => :value })
-* Wormhole::Config#to_hash
+* Add Wormhole::Config#to_hash
++ Add Wormhole::Config#each (include Enumerable)

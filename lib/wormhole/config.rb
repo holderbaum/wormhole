@@ -14,7 +14,7 @@ module Wormhole
   #   config.foo.bar # => 42
   #   config.foo? # => true
   class Config
-    
+
     def initialize
       @hash = {}
     end
