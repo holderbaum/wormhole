@@ -6,9 +6,9 @@ module Wormhole
     end
 
     def empty?  
-      @hash.select do |k,v| 
-        v.class != Wormhole::Config or (v.class == Wormhole::Config and !v.empty?) 
-      end.size == 0
+      @hash.all? do |_, value|
+        value.is_a?(Config) && value.empty?
+      end
     end
 
     def method_missing(meth, *args, &blk)

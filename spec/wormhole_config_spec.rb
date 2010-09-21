@@ -46,7 +46,15 @@ describe Wormhole::Config do
       @config.bar = "fooze"
     end
     specify { @config.should_not be_empty }
-    
+  end
+
+  context "when attributes added which respond to emtpy?, it" do
+    before do
+      @config.string = ""
+      @config.array = []
+      @config.hash = {}
+    end
+    specify { @config.should_not be_empty }
   end
 
   context "when _attr_name_? of a implicit created attr via *= is called, it" do
