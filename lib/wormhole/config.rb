@@ -5,6 +5,9 @@ module Wormhole
       @hash = {}
     end
 
+    # Checks whether all sub values are +nil+ or +empty?+.
+    #
+    # @return [Boolean] +true+ if config is empty
     def empty?  
       @hash.all? do |_, value|
         _empty_value?(value)
