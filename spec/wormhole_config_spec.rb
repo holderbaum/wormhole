@@ -85,12 +85,21 @@ describe Wormhole::Config do
     specify { @config.foo?.should be_true }
   end
 
-  context "when to_has without nesting is called, it" do
+  context "when to_hash without nesting is called, it" do
     before do
       @config.foo = 23
       @config.bar = "42"
     end
     specify { @config.to_hash.should == { :foo => 23, :bar => "42" } } 
+  end
+
+  context "when result of to_hash is modified, it" do
+    before do
+      @config.foo = 23
+      hash = @config.to_hash
+      hash[:foo] = 42
+    end
+    specify { @config.foo.should == 23 }
   end
 
 end

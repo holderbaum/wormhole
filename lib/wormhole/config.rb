@@ -29,7 +29,7 @@ module Wormhole
     end
 
     def to_hash
-      @hash
+      @hash.dup
     end
 
     def _empty_value?(value) # :nodoc:
