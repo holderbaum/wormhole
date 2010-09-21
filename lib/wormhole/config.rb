@@ -1,4 +1,18 @@
 module Wormhole
+  # Flexible OpenStruct-like configuration container.
+  #
+  # @example Basic usage
+  #   config = Wormhole::Config.new
+  #   config.foo? # => false
+  #   config.foo = 23
+  #   config.foo # => 23
+  #   config.foo? # => true
+  #
+  # @example Nested config
+  #   config = Wormhole::Config.new
+  #   config.foo.bar = 42
+  #   config.foo.bar # => 42
+  #   config.foo? # => true
   class Config
     
     def initialize
