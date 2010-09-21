@@ -63,7 +63,7 @@ describe Wormhole::Config do
   end
 
   context "when _attr_name_? of a implicit created attr via *? is called, it" do
-    before { @config.bar.fooze? }
+    before { @config.bar.fooze }
     specify { @config.bar?.should be_false }
   end
 
@@ -91,6 +91,15 @@ describe Wormhole::Config do
       @config.bar = "42"
     end
     specify { @config.to_hash.should == { :foo => 23, :bar => "42" } } 
+  end
+
+  context "when to_hash with nested values is called, it" do
+    before do
+      @config.foo = 23
+      @config.bar = "42"
+      @config.baz.fooze = "deep"
+    end
+    specify { @config.to_hash.should == { :foo => 23, :bar => "42", :baz => { :fooze => "deep" } } } 
   end
 
   context "when result of to_hash is modified, it" do

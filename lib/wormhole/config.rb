@@ -28,8 +28,14 @@ module Wormhole
       end
     end
 
+    # Converts +config+ object to a +Hash+ - including nested values.
+    #
+    # @return [Hash] a regular hash
     def to_hash
-      @hash.dup
+      result = @hash.collect do |key, value|
+        [ key, value.is_a?(Config) ? value.to_hash : value ]
+      end
+      Hash[result]
     end
 
     def _empty_value?(value) # :nodoc:
