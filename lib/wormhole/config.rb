@@ -6,29 +6,29 @@ module Wormhole
     end
 
     def empty?  
-      return @hash.select do |k,v| 
+      @hash.select do |k,v| 
         v.class != Wormhole::Config or (v.class == Wormhole::Config and !v.empty?) 
       end.size == 0
     end
 
     def method_missing(meth, *args, &blk)
       if meth.to_s =~ /[a-zA-Z0-9]*=/
-        return @hash[meth.to_s[0..-2].to_sym] = args[0]
+        @hash[meth.to_s[0..-2].to_sym] = args[0]
       elsif meth.to_s =~ /[a-zA-Z0-9]*\?/
         meth = meth.to_s[0..-2].to_sym
         if @hash[meth].nil?
-          return false
+          false
         else
           if @hash[meth].class == Wormhole::Config and @hash[meth].empty?
-            return  false
+            false
           else
-            return true
+            true
           end
         end
       elsif @hash[meth].nil?
-        return @hash[meth] = self.class.new
+        @hash[meth] = self.class.new
       else
-        return @hash[meth]
+        @hash[meth]
       end
     end
 
