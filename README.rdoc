@@ -4,3 +4,9 @@
 
   bundle install
   rake spec
+
+== TODO
+
+* Seed Wormhole::Config with (nested) values:
+    Wormhole::Config.new(:key => { :subkey => :value })
+* Wormhole::Config#to_hash
