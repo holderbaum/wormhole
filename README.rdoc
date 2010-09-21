@@ -1,0 +1,6 @@
+= Wormhole
+
+== Testing
+
+  bundle install
+  rake spec

@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'bundler/setup'
+
 # Setup the $LOAD_PATH for use with rspec
 require 'spec'
 require 'spec/rake/spectask'
@@ -5,7 +8,6 @@ require 'spec/rake/spectask'
 Spec::Rake::SpecTask.new do |task|
 	task.libs << 'lib'
 end
-
 
 #
 # Gem Packaging
@@ -16,6 +18,8 @@ gem_name = 'wormhole'
 
 
 gem_spec = eval(File.read(gem_name+'.gemspec'))
+
+task :default => :spec
 
 Rake::GemPackageTask.new(gem_spec) do |p|
 	p.gem_spec = gem_spec
@@ -40,3 +44,5 @@ task :clean => :clobber_package do
 	# all handled by dependencies for now. 
 end
 
+require 'yard'
+YARD::Rake::YardocTask.new
