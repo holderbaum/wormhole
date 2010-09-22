@@ -1,11 +1,11 @@
 module Wormhole #:nodoc:
-	module VERSION #:nodoc:
-		MAJOR = 0
-		MINOR = 0
-		BUILD = 1
+  module VERSION #:nodoc:
+    MAJOR = 0
+    MINOR = 0
+    BUILD = 1
 
-		STRING = [MAJOR, MINOR, BUILD].join('.')
-	end
+    STRING = [MAJOR, MINOR, BUILD].join('.')
+  end
 end
 
 require 'wormhole/wormhole'

@@ -1,12 +1,12 @@
 module Wormhole
-	module ClassMethods
-	end
+  module ClassMethods
+  end
 
-	module InstanceMethods
-	end
+  module InstanceMethods
+  end
 
-	def self.included(receiver)
-		receiver.extend         ClassMethods
-		receiver.send :include, InstanceMethods
-	end
+  def self.included(receiver)
+    receiver.extend         ClassMethods
+    receiver.send :include, InstanceMethods
+  end
 end

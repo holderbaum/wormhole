@@ -6,7 +6,7 @@ require 'spec'
 require 'spec/rake/spectask'
 
 Spec::Rake::SpecTask.new do |task|
-	task.libs << 'lib'
+  task.libs << 'lib'
 end
 
 #
@@ -22,26 +22,26 @@ gem_spec = eval(File.read(gem_name+'.gemspec'))
 task :default => :spec
 
 Rake::GemPackageTask.new(gem_spec) do |p|
-	p.gem_spec = gem_spec
-	p.need_tar = true
-	p.need_zip = true
+  p.gem_spec = gem_spec
+  p.need_tar = true
+  p.need_zip = true
 end
 
 #
 # Gem Management
 desc "Install the created gem."
 task :install => :gem do
-	system("gem install pkg/#{gem_spec.name}-#{gem_spec.version}.gem")
+  system("gem install pkg/#{gem_spec.name}-#{gem_spec.version}.gem")
 end
 
 desc "Uninstall the gem."
 task :uninstall do
-	system("gem uninstall #{gem_spec.name}")
+  system("gem uninstall #{gem_spec.name}")
 end
 
 desc "Delete generated files"
 task :clean => :clobber_package do
-	# all handled by dependencies for now. 
+  # all handled by dependencies for now.
 end
 
 require 'yard'
