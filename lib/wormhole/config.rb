@@ -43,6 +43,9 @@ module Wormhole
     # @param [Hash] the hash that should be merged into the config-object
     # @return [Wormhole::Config] the modified config-object
     def merge!(hash)
+      hash.each do |key,value|
+        @hash[key] = value unless @hash[key]
+      end
     end
     
     def _empty_value?(value) # :nodoc:
