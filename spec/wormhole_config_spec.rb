@@ -111,4 +111,14 @@ describe Wormhole::Config do
     specify { @config.foo.should == 23 }
   end
 
+  context "when merge with a non-nested hash is called, it" do
+    before do
+      @config.foo = "bar"
+      @hash = { :baz => "fooze" }
+      @config.merge! @hash
+      @hash.merge! :foo => "bar"
+    end
+    specify { @config.to_hash.should == @hash }
+    
+  end
 end
