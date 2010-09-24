@@ -119,5 +119,20 @@ describe Wormhole::Config do
     end
   end
 
+  describe "merge!" do
+
+    before do
+      @merge_config = Wormhole::Config.new
+    end
+    
+    it "should merge a flat and non-colliding config-object" do
+      @config.bar = "foo"
+      @merge_config.baz = "fooze"
+      @config.merge! @merge_config
+
+      @config.bar.should == "foo"
+      @config.baz.should == "fooze"
+    end
+  end
 
 end
