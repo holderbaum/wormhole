@@ -119,6 +119,15 @@ describe Wormhole::Config do
       @hash.merge! :foo => "bar"
     end
     specify { @config.to_hash.should == @hash }
-    
   end
+
+  context "when merge with a collision is called, it" do
+    before do
+      @config.baz = "fooze"
+      @hash = { :baz => "foo" }
+      @config.merge! @hash
+    end
+    specify { @config.to_hash.should == { :baz => "fooze"} }
+  end
+
 end
