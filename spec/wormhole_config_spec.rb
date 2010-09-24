@@ -150,6 +150,5 @@ describe Wormhole::Config do
       @config.merge! @hash
     end
     specify { @config.to_hash.should == { :baz => "fooze", :foo => { :bar => 42, :baz => "fooze", :fooze => 42} } }
-    
   end
 end
