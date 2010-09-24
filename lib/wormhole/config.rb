@@ -45,7 +45,7 @@ module Wormhole
     def merge!(hash)
       hash.each do |key,value|
         if @hash[key] and @hash[key].is_a? Config
-        
+          @hash[key].merge! value
         elsif @hash[key].nil?
           @hash[key] = value 
         end
