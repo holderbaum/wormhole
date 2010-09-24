@@ -6,13 +6,15 @@ describe Wormhole::Config do
     @config = Wormhole::Config.new
   end
 
-  context "when a _attr_name_= is called, it" do
-    specify { lambda { @config.foo = "bar" }.should_not raise_error(NoMethodError) }
+  it "should never raise a NoMethodError if [attr]= is called" do
+    lambda do
+      @config.foo = "bar"
+    end.should_not raise_error(NoMethodError)
   end
 
-  context "when the attr is called again, it" do
-    before { @config.foo = "bar" }
-    specify { @config.foo.should == "bar" }
+  it "should return the via attr= assigned value when attr is called" do
+    @config.foo = "bar"
+    @config.foo.should == "bar"
   end
 
   context "when attributes are concatenated, they" do
