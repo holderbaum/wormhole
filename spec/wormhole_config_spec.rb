@@ -17,49 +17,48 @@ describe Wormhole::Config do
     @config.foo.should == "bar"
   end
 
-  context "when attributes are concatenated, they" do
-    specify do
-      lambda { @config.foo.bar.om = "nom" }.should_not raise_error(NoMethodError)
-    end
+  it "should be possible to concatenate attributes and assign a value at the end" do
+    lambda do
+      @config.foo.bar.fooze = "baz"
+    end.should_not raise_error(NoMethodError)
   end
 
-  context "when attributes are concatenated called, they" do
-    before { @config.foo.bar.om = "nom" }
-    specify { @config.foo.bar.om.should == "nom" }
-    
+  it "should return the assigned value fo a concatenated key" do
+    @config.foo.bar.baz = "fooze"
+    @config.foo.bar.baz.should == "fooze"
+  end
+  
+  it "should return false if attr? for a never touched attr is called" do
+    @config.barfooze?.should be_false
   end
 
-  context "when _attr_name_? for a never touched attr is called, it" do
-    specify { @config.barfooze?.should be_false }
+  it "should return true if attr? for an assigned attr is called" do
+    @config.barfooze = "noodles"
+    @config.barfooze?.should be_true
   end
 
-  context "when _attr_name_? for a setted attr is called, it" do
-    before { @config.barfooze = "noodles" }
-    specify { @config.barfooze?.should be_true }
-    
+  it "should be empty if only implicit attribute where created" do
+    @config.foo.bar?
+    @config.fooze.baz?
+
+    @config.should be_empty
+  end
+  
+  it "should not be empty if attributes have assigned values" do
+    @config.foo.bar?
+    @config.baz = 42
+
+    @config.should_not be_empty
   end
 
-  context "when only implicit attributes, it" do
-    before { @config.aa.bb? }
-    specify { @config.should be_empty }
+  it "should also not be empty if the assigned values are responding to empty?" do
+    @config.string = ""
+    @config.array = []
+    @config.hash = {}
+
+    @config.should_not be_empty
   end
 
-  context "when a real attr comes in addition, it" do
-    before do
-      @config.foo.bar?
-      @config.bar = "fooze"
-    end
-    specify { @config.should_not be_empty }
-  end
-
-  context "when attributes added which respond to emtpy?, it" do
-    before do
-      @config.string = ""
-      @config.array = []
-      @config.hash = {}
-    end
-    specify { @config.should_not be_empty }
-  end
 
   context "when _attr_name_? of a implicit created attr via *= is called, it" do
     before { @config.bar.fooze = 42 }
@@ -89,30 +88,26 @@ describe Wormhole::Config do
     specify { @config.foo?.should be_true }
   end
 
-  context "when to_hash without nesting is called, it" do
-    before do
-      @config.foo = 23
-      @config.bar = "42"
-    end
-    specify { @config.to_hash.should == { :foo => 23, :bar => "42" } } 
+  it "should transform a flat config object into a hash" do
+    @config.foo = 23
+    @config.bar = "42"
+
+    @config.to_hash.should == { :foo => 23, :bar => "42" }
   end
 
-  context "when to_hash with nested values is called, it" do
-    before do
-      @config.foo = 23
-      @config.bar = "42"
-      @config.baz.fooze = "deep"
-    end
-    specify { @config.to_hash.should == { :foo => 23, :bar => "42", :baz => { :fooze => "deep" } } } 
+  it "should call to_hash on nested elements" do
+    @config.foo = 42
+    @config.bar = "fooze"
+    @config.baz.fooze = 23
+
+    @config.to_hash.should == { :foo => 42, :bar => "fooze", :baz => { :fooze => 23 } }        
   end
 
-  context "when result of to_hash is modified, it" do
-    before do
-      @config.foo = 23
-      hash = @config.to_hash
-      hash[:foo] = 42
-    end
-    specify { @config.foo.should == 23 }
-  end
+  it "should not be possible to change a config object by the via to_hash returned hash" do
+    @config.foo = 23
+    hash = @config.to_hash
+    hash[:foo] = 42
 
+    @config.foo.should == 23
+  end
 end
