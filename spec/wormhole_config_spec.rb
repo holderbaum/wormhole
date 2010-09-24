@@ -151,4 +151,17 @@ describe Wormhole::Config do
     end
     specify { @config.to_hash.should == { :baz => "fooze", :foo => { :bar => 42, :baz => "fooze", :fooze => 42} } }
   end
+
+  context "when merge! arg is not a hash, merge! should call to_hash, and it" do
+    before do
+      @config.bar = "foo"
+      @config.foo.bar = 42
+
+      merged_config = Wormhole::Config.new
+      merged_config.foo.baz = "fooze"
+      @config.merge! merged_config
+    end
+    specify { @config.to_hash.should == { :bar => "foo", :foo => { :bar => 42, :baz => "fooze" }} }
+    
+  end
 end
