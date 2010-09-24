@@ -130,4 +130,26 @@ describe Wormhole::Config do
     specify { @config.to_hash.should == { :baz => "fooze"} }
   end
 
+  context "when merged with a nested hash, it" do
+    before do
+      @config.baz = "fooze"
+      @hash = { :foo => "bar", :the => { :solution => 42 } }
+      @config.merge! @hash
+    end
+    specify { @config.to_hash.should == { :foo => "bar", :baz => "fooze", :the => { :solution => 42 }} }
+  end
+
+  context "when merged with a nested hash and collison, it" do
+    before do
+      @config.baz = "fooze"
+      @config.foo.bar = 42
+      @config.foo.baz = "fooze"
+
+      @hash = { :foo => { :fooze => 42} }
+
+      @config.merge! @hash
+    end
+    specify { @config.to_hash.should == { :baz => "fooze", :foo => { :bar => 42, :baz => "fooze", :fooze => 42} } }
+    
+  end
 end
