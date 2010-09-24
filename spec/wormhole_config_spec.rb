@@ -2,7 +2,9 @@ require 'spec_helper'
 
 describe Wormhole::Config do
   
-  before { @config = Wormhole::Config.new }
+  before do
+    @config = Wormhole::Config.new
+  end
 
   context "when a _attr_name_= is called, it" do
     specify { lambda { @config.foo = "bar" }.should_not raise_error(NoMethodError) }
