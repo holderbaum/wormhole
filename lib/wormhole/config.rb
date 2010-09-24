@@ -38,11 +38,11 @@ module Wormhole
       Hash[result]
     end
 
-    # Merges the via argument given hash inplace into the config-object
+    # Merges the via argument given config-object inplace and deep into the config-object
     #
-    # @param [Hash] the hash that should be merged into the config-object
+    # @param [Wormhole::Config] the config-object that should be merged into the calling object
     # @return [Wormhole::Config] the modified config-object
-    def merge!(hash)
+    def merge!(config)
     end
     
     def _empty_value?(value) # :nodoc:
