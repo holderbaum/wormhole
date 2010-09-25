@@ -171,6 +171,16 @@ describe Wormhole::Config do
 
       @config.bar.should == "fooze"
     end
+
+    it "should deep-merge nested config elements" do
+      @config.bar = "foo"
+      @config.foo.bar = "foo"
+      @merge_config.foo.baz = "fooze"
+      @config.merge! @merge_config
+
+      @config.foo.bar.should == "foo"
+      @config.foo.baz.should == "fooze"
+    end
   end
 
 end
