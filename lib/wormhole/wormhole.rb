@@ -9,6 +9,9 @@ module Wormhole
       @@config_backend = config_class
     end
 
+    def create(namespace)
+      yield config_backend.new
+    end
   end
 
   module InstanceMethods
