@@ -163,6 +163,14 @@ describe Wormhole::Config do
       @config.bar.should == "foo"
       @config.baz.should == "fooze"
     end
+
+    it "should override in case of a collision" do
+      @config.bar = "foo"
+      @merge_config.bar = "fooze"
+      @config.merge! @merge_config
+
+      @config.bar.should == "fooze"
+    end
   end
 
 end
