@@ -119,6 +119,36 @@ describe Wormhole::Config do
     end
   end
 
+
+  describe "each" do
+
+    it "should iterate over the attributes like a hash" do
+      @config.bar = "foo"
+      @config.baz = "fooze"
+
+      hash = {}
+
+      @config.each do |k,v|
+        hash[k] = v
+      end
+
+      hash.should == { :bar => "foo", :baz => "fooze" }
+    end
+
+    it "should not convert nested config-objects to hashes" do
+      @config.bar = "foo"
+      @config.foo.bar = 42
+
+      hash = {}
+
+      @config.each do |k,v|
+        hash[k] = v
+      end
+
+      hash[:foo].is_a?(Wormhole::Config).should be_true
+    end
+  end
+
   describe "merge!" do
 
     before do
