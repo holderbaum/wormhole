@@ -36,7 +36,7 @@ describe Wormhole do
 
     it "should yield a block with an instance of the constance_backend as argument" do
       TestClass.create(:foo) do |config|
-        config.class.should == (Wormhole::Config)
+        config.is_a?(Wormhole::Config).should be_true
       end
     end
 
