@@ -43,6 +43,9 @@ module Wormhole
     # @param [Wormhole::Config] the config-object that should be merged into the calling object
     # @return [Wormhole::Config] the modified config-object
     def merge!(config)
+      config.each do |key,value|
+        @hash[key] = value
+      end
     end
   
     # Behaves like the wellknown each on a hash. It calls the block with the arguments |key,value|
