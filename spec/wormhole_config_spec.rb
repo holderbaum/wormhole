@@ -181,6 +181,13 @@ describe Wormhole::Config do
       @config.foo.bar.should == "foo"
       @config.foo.baz.should == "fooze"
     end
+
+    it "should return the modified config objectinstance" do
+      @merge_config.foo = "bar"
+      ret = (@config.merge! @merge_config)
+      
+      ret.should == @config 
+    end
   end
 
 end
