@@ -147,6 +147,10 @@ describe Wormhole::Config do
 
       hash[:foo].is_a?(Wormhole::Config).should be_true
     end
+    
+    it "should return the config-objectinstance" do
+      @config.each{|k,v|}.should == @config
+    end
   end
 
   describe "merge!" do
