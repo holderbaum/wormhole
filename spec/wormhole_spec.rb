@@ -9,7 +9,12 @@ describe Wormhole do
 
     @test_class = TestClass.new
   end
-  
+ 
+  after(:each) do
+    reset_test_class
+  end
+
+
   it 'should have a VERSION' do
     Wormhole::VERSION::STRING.should == "0.0.1"
   end
@@ -30,7 +35,6 @@ describe Wormhole do
   describe "create" do
 
     it "should yield a block with an instance of the constance_backend as argument" do
-      
       TestClass.create(:foo) do |config|
         config.class.should == (Wormhole::Config)
       end
