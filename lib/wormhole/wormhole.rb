@@ -1,6 +1,8 @@
 module Wormhole
   module ClassMethods
 
+    @@namespaces = {}
+
     def config_backend
       @@config_backend ||= Config
     end
@@ -10,7 +12,7 @@ module Wormhole
     end
 
     def create(namespace)
-      yield config_backend.new
+      yield(@@namespaces[namespace] ||= config_backend.new)
     end
   end
 
