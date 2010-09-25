@@ -40,6 +40,17 @@ describe Wormhole do
       end
     end
 
+    it "should yield a block with the same config instance different times under one namespace " do
+      instance = nil
+      TestClass.create(:foo) do |config|
+        instance = config
+      end
+
+      TestClass.create(:foo) do |config|
+        config.should == instance
+      end
+    end
+
   end
 
 end
