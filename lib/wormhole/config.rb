@@ -50,6 +50,7 @@ module Wormhole
           @hash[key] = value
         end
       end
+      self
     end
   
     # Behaves like the wellknown each on a hash. It calls the block with the arguments |key,value|
