@@ -1,6 +1,9 @@
 
 
 config/env.rb
+
+Wormhole.config_backend = Wormhole::Config # this will be default
+
 Wormhole.create(:bla) do |config| # @@instance
   config.bla = 23
   config.foo = 42
@@ -17,6 +20,7 @@ class Controller
     config.bar = "fasel"
   end
 end
+
 
 
 helper.rb
