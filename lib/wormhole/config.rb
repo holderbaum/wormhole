@@ -44,7 +44,11 @@ module Wormhole
     # @return [Wormhole::Config] the modified config-object
     def merge!(config)
       config.each do |key,value|
-        @hash[key] = value
+        if value.is_a? Config
+          @hash[key].merge! value
+        else
+          @hash[key] = value
+        end
       end
     end
   
