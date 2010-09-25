@@ -20,6 +20,11 @@ describe Wormhole do
       TestClass.config_backend.should == Wormhole::Config
     end
 
+    it "should be configurable" do
+      TestClass.config_backend = Hash
+      TestClass.config_backend.should == Hash
+    end
+
   end
 
 end
