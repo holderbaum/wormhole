@@ -44,7 +44,17 @@ module Wormhole
     # @return [Wormhole::Config] the modified config-object
     def merge!(config)
     end
-    
+  
+    # Behaves like the wellknown each on a hash. It calls the block with the arguments |key,value|
+    # Nested values are Wormhole::Config instances
+    #
+    # @param [Block] will be called on every iteration with |key,value|  
+    # @return [Wormhole::Config] the config-object itself
+    def each(&blk)
+      @hash.each(&blk)
+      return self
+    end
+
     def _empty_value?(value) # :nodoc:
       value.is_a?(Config) && value.empty?
     end
