@@ -14,5 +14,12 @@ describe Wormhole do
     Wormhole::VERSION::STRING.should == "0.0.1"
   end
 
-end
+  describe "self.config_backend" do
 
+    it "should be set by default to Wormhole::Config" do
+      TestClass.config_backend.should == Wormhole::Config
+    end
+
+  end
+
+end
