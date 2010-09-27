@@ -10,3 +10,6 @@
 
 * Seed Wormhole::Config with (nested) values:
     Wormhole::Config.new(:key => { :subkey => :value })
+
+* Define a sensible return value for +Wormhole.create+ 
+
