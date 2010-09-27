@@ -56,5 +56,32 @@ describe Wormhole do
   end
 
   describe "self.merge" do
+    it "should yield a block with an instance of the config_backend as an argument" do
+      @test_class.merge(:foo) do |config|
+        config.is_a?(Wormhole::Config).should be_true
+      end
+    end
+
+    it "yielded config_backend instance should not be the same instance as under create" do
+      instance = nil
+      @test_class.create(:foo) do |config|
+        instance = config
+      end
+
+      @test_class.merge(:foo) do |config|
+        instance.should_not == config
+      end
+    end
+
+    it "should yield the same config_backend instances under the same namespace" do
+      instance = nil
+      @test_class.merge(:foo) do |config|
+        instance = config
+      end
+
+      @test_class.merge(:foo) do |config|
+        instance.should == config
+      end
+    end
   end
 end
