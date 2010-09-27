@@ -19,6 +19,19 @@ describe Wormhole do
     Wormhole::VERSION::STRING.should == "0.0.1"
   end
 
+  describe "rspec test environment" do
+    it "should set TestClass definition before every test" do
+      Module::constants.include?("TestClass").should be_true
+      def TestClass.monkey
+        puts "patch"
+      end
+    end
+
+    it "should reset the TestClass after every test" do
+      puts TestClass.methods.include?("monkey").should be_false
+    end
+  end
+
   describe "self.config_backend" do
 
     it "should be set by default to Wormhole::Config" do
