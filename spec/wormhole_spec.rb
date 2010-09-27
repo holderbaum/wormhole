@@ -7,7 +7,11 @@ describe Wormhole do
       include Wormhole
     end
   end
- 
+
+  after(:each) do
+    Object.send(:remove_const, :test_class)
+  end
+
   it 'should have a VERSION' do
     Wormhole::VERSION::STRING.should == "0.0.1"
   end
@@ -18,10 +22,17 @@ describe Wormhole do
       def @test_class.monkey
         puts "patch"
       end
+
+      def @test_class.set_class_var
+        @@class_var = "foo"
+      end
+
+      @test_class.set_class_var
     end
 
     it "should reset the test_class after every test" do
       @test_class.methods.include?("monkey").should be_false
+      @test_class.class_variables.should be_empty
     end
   end
 
@@ -39,6 +50,8 @@ describe Wormhole do
   describe "self.create" do
     it "should yield a block with an instance of the constance_backend as argument" do
       @test_class.create(:foo) do |config|
+        puts "testsss"
+        puts config.class
         config.is_a?(Wormhole::Config).should be_true
       end
     end
@@ -52,6 +65,14 @@ describe Wormhole do
       @test_class.create(:foo) do |config|
         config.should == instance
       end
+    end
+
+    it "should return the yielded config-backend instance" do
+      instance = nil
+      ret = @test_class.create(:foo) do |config|
+        instance = config
+      end
+      instance.should == ret
     end
   end
 
