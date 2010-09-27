@@ -6,8 +6,6 @@ describe Wormhole do
     class TestClass
       include Wormhole
     end
-
-    @test_class = TestClass.new
   end
  
   after(:each) do
@@ -33,7 +31,6 @@ describe Wormhole do
   end
 
   describe "self.config_backend" do
-
     it "should be set by default to Wormhole::Config" do
       TestClass.config_backend.should == Wormhole::Config
     end
@@ -42,11 +39,9 @@ describe Wormhole do
       TestClass.config_backend = Hash
       TestClass.config_backend.should == Hash
     end
-
   end
 
   describe "self.create" do
-
     it "should yield a block with an instance of the constance_backend as argument" do
       TestClass.create(:foo) do |config|
         config.is_a?(Wormhole::Config).should be_true
@@ -63,7 +58,8 @@ describe Wormhole do
         config.should == instance
       end
     end
-
   end
 
+  describe "self.merge" do
+  end
 end
