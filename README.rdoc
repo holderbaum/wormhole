@@ -2,8 +2,9 @@
 
 == Testing
 
+  gem install bundler
   bundle install
-  rake spec
+  rake
 
 == TODO
 
