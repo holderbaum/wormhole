@@ -28,7 +28,7 @@ describe Wormhole do
     end
 
     it "should reset the TestClass after every test" do
-      puts TestClass.methods.include?("monkey").should be_false
+      TestClass.methods.include?("monkey").should be_false
     end
   end
 
