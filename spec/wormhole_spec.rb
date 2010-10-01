@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Wormhole do
- 
+
   before(:each) do
     @wormhole = Wormhole::Instance.dup
   end
@@ -15,7 +15,7 @@ describe Wormhole do
   end
 
   describe "rspec test environment" do
-    
+
     it "set the config_backend value" do
       @wormhole.config_backend = String
     end
@@ -63,9 +63,13 @@ describe Wormhole do
 
   describe "self.merge" do
     it "should yield a block with an instance of the config_backend as an argument" do
-      @wormhole.merge(:foo) do |config|
-        config.is_a?(Wormhole::Config).should be_true
-      end
+      
+      Thread.new do
+        @wormhole.merge(:foo) do |config|
+          config.is_a?(Wormhole::Config).should be_true
+        end
+      end.join
+
     end
 
     it "yielded config_backend instance should not be the same instance as under create" do
@@ -74,39 +78,60 @@ describe Wormhole do
         instance = config
       end
 
-      @wormhole.merge(:foo) do |config|
-        instance.should_not == config
-      end
+      Thread.new do
+        @wormhole.merge(:foo) do |config|
+          instance.should_not == config
+        end
+      end.join # thread
+
     end
 
-    it "should yield the same config_backend instances under the same namespace" do
+    it "should yield the same config_backend instances under the same namespace in the same thread" do
       instance = nil
-      @wormhole.merge(:foo) do |config|
-        instance = config
-      end
 
-      @wormhole.merge(:foo) do |config|
-        instance.should == config
-      end
+      Thread.new do
+        @wormhole.merge(:foo) do |config|
+          instance = config
+        end
+
+        @wormhole.merge(:foo) do |config|
+          instance.should == config
+        end
+      end.join # thread
+
     end
 
     it "should yield individual config_backend instances for each thread" do
       instance_1 = nil
       instance_2 = nil
-      
+
       Thread.new do
         @wormhole.merge(:foo) do |config|
           instance_1 = config
         end
+      end.join # thread
+
+      Thread.new do
+        @wormhole.merge(:foo) do |config|
+          instance_2 = config
+        end
+      end.join # thread
+
+      instance_1.should_not == instance_2
+    end
+
+    it "should call merge! on the new config object with the instance of create" do
+      @wormhole.create(:foo) do |config|
+        config.bar = "fooze"
       end
 
       Thread.new do
-        @Wormhole.merge(:foo) do |config|
-          instance_2 = config
+        @wormhole.merge(:foo) do |config|
+          config.bar.should == "fooze"
         end
-      end
-      
-      instance_1.should_not == instance_2
+      end.join # thread
+
     end
   end
+
 end
