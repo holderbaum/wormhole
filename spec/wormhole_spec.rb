@@ -89,5 +89,24 @@ describe Wormhole do
         instance.should == config
       end
     end
+
+    it "should yield individual config_backend instances for each thread" do
+      instance_1 = nil
+      instance_2 = nil
+      
+      Thread.new do
+        @wormhole.merge(:foo) do |config|
+          instance_1 = config
+        end
+      end
+
+      Thread.new do
+        @Wormhole.merge(:foo) do |config|
+          instance_2 = config
+        end
+      end
+      
+      instance_1.should_not == instance_2
+    end
   end
 end
