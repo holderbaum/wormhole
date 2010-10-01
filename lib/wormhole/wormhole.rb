@@ -34,6 +34,13 @@ module Wormhole
       def create(namespace)
         yield(@namespaces[namespace] ||= config_backend.new)
       end
+
+
+      def merge(namespace)
+        Thread.current[:wormhole] ||= {}
+        yield( Thread.current[:wormhole][namespace] ||= config_backend.new )
+      end
+
     end
   end
 
