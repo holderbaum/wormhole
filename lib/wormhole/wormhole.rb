@@ -36,6 +36,12 @@ module Wormhole
       end
 
 
+      # yields a new config object on a uniqe-per-thread base and merges the via create configured object
+      # of the same namespace into it
+      #
+      # @param [Symbol] namespace
+      # @yield [config_backend.new] new config_backend instance with merged main config_backend instance
+      # @return [config_backend.new] the manipulated config_backend instance
       def merge(namespace)
         Thread.current[:wormhole] ||= {}
         
