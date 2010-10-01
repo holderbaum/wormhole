@@ -1,10 +1,22 @@
 = Wormhole
 
+== What the heck is this?
+
++description will follow..+
+
 == Testing
 
   gem install bundler
   bundle install
   rake
+
+== Documentation
+
+* build doc
+
+    rake yard
+
+* then open +file:///path/to/gem/doc/index.html+ in your browser
 
 == TODO
 
