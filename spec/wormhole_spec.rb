@@ -3,9 +3,12 @@ require 'spec_helper'
 describe Wormhole do
  
   before(:each) do
+    Wormhole::Instance.freeze
+    @wormhole = Wormhole::Instance.dup
   end
 
   after(:each) do
+    @wormhole = nil
   end
 
   it 'should have a VERSION' do
@@ -13,12 +16,15 @@ describe Wormhole do
   end
 
   describe "rspec test environment" do
+    
     it "set the config_backend value" do
-      Wormhole::Instance.config_backend = String
+      puts @wormhole
+      @wormhole.config_backend = String
     end
 
     it "should reset the test_class after every test" do
-      Wormhole::Instance.config_backend.should == Wormhole::Config
+      puts @wormhole
+      @wormhole.config_backend.should == Wormhole::Config
     end
   end
 
