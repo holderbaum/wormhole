@@ -3,7 +3,7 @@ module Wormhole
 
     @namespaces = {}
 
-    class << self # change self scope to metaclass of Instance
+    class << self # change self scope to singleton of Instance
 
       # returns the class that will be used as configuration-container
       #
