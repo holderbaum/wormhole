@@ -25,12 +25,12 @@ module Wormhole
       # @example Usage:
       #   Wormhole.create(:foo) do |config|
       #     config.bar = "fooze"
-      #     config.class # => Wormhole::Config
+      #     config.class # => config
       #   end
       #
       # @param [Symbol] namespace
       # @yield [config_backend.new] new config_backend instance 
-      # @return [nil] TODO: define return-value
+      # @return [config_backend.new] the manipulated config_backend instance
       def create(namespace)
         yield(@namespaces[namespace] ||= config_backend.new)
       end
