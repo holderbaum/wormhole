@@ -132,6 +132,16 @@ describe Wormhole do
       end.join # thread
 
     end
+
+    it "should return the yielded object instance" do
+      instance = nil
+      ret = @wormhole.merge(:foo) do |config|
+        instance = config
+      end
+
+      ret.should == instance
+    end
+
   end
 
 end
