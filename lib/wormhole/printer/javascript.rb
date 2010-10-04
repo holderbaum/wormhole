@@ -14,12 +14,18 @@ module Wormhole
       def self.convert( namespace, hash )
         ret = ""
         hash.each do |key, value|
-          if value.is_a?(String)
-            value = '"'+value+'"'
+          if value.is_a?(Hash)
+            new_namespace = namespace+'.'+key.to_s
+            ret += new_namespace+'={};'
+            ret += convert( new_namespace, value )
           else
-            value = value.to_s
+            if value.is_a?(String)
+              value = '"'+value+'"'
+            else
+              value = value.to_s
+            end
+            ret += namespace+'.'+key.to_s+'='+value+';'
           end
-          ret += namespace+'.'+key.to_s+'='+value+';'
         end
         ret
       end
