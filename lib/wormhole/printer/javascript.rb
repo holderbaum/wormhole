@@ -3,7 +3,11 @@ module Wormhole
     class Javascript
 
       def self.out( hash )
-        "var wormhole={};"+convert( "wormhole", hash )
+        if hash.empty?
+          ""
+        else
+          "var wormhole={};"+convert( "wormhole", hash )
+        end
       end
 
       private
