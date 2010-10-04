@@ -10,3 +10,4 @@ end
 
 require 'wormhole/wormhole'
 require 'wormhole/config'
+require 'wormhole/printer/javascript'
