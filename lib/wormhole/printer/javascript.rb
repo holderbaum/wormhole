@@ -3,7 +3,21 @@ module Wormhole
     class Javascript
 
       def self.out( hash )
-        "" 
+        "var wormhole={};"+convert( "wormhole", hash )
+      end
+
+      private
+      def self.convert( namespace, hash )
+        ret = ""
+        hash.each do |key, value|
+          if value.is_a?(String)
+            value = '"'+value+'"'
+          else
+            value = value.to_s
+          end
+          ret += namespace+'.'+key.to_s+'='+value+';'
+        end
+        ret
       end
 
     end
