@@ -2,9 +2,12 @@
 
 config/env.rb
 
-Wormhole.config_backend = Wormhole::Config # this will be default
+Wormhole::Instance.config_backend = Wormhole::Config # this will be default
 
-Wormhole.create(:bla) do |config| # @@instance
+Wormhole::Instance.add_printer(:javascript, MyJSPrinter) # MyJSPrinter should implement   (String) out( (Hash) )
+# everytime print with :javascript is called, the printers out method will be called with the object Hash as argument
+
+Wormhole::Instance.create(:bla) do |config| # @@instance
   config.bla = 23
   config.foo = 42
 end
@@ -12,16 +15,19 @@ end
 
 
 class Controller
-  Wormhole.merge(:bla) do |config| # Thread.current[:wormhole] ||= Wormhole.instance.dup
+  Wormhole::Instance.merge(:bla) do |config| # Thread.current[:wormhole] ||= Wormhole.instance.dup
     config.foo = 23
   end
 
-  Wormhole.merge(:bla) do |config|
+  Wormhole::Instance.merge(:bla) do |config|
     config.bar = "fasel"
   end
 end
 
 
 view:
-<%= Wormhole.print.to(:javascript) %>
-# print should be a wrapper for different printing-backends
+# this will build a javascript object with every namespace included
+<%= Wormhole::Instance.print( :javascript ) %>
+
+# this will build a javascript object that contains only the foo and bar namespace
+<%= Wormhole::Instance.print( [:foo,:bar], :javascript ) %>
