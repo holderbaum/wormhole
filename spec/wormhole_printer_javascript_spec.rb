@@ -16,6 +16,10 @@ describe Wormhole::Printer::Javascript do
       @printer.out({}).should == ''
     end
 
+    it "should build a non nested object" do
+      hash = { :foo => 42, :bar => "fooze" }
+      @printer.out( hash ).should == 'var wormhole={};wormhole.bar="fooze";wormhole.foo=42;'
+    end
   end
 
 end
