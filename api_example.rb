@@ -22,6 +22,6 @@ class Controller
 end
 
 
-
-helper.rb
-<%= Wormhole.to_javascript %>
+view:
+<%= Wormhole.print.to(:javascript) %>
+# print should be a wrapper for different printing-backends
