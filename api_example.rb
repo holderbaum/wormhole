@@ -1,6 +1,6 @@
 
 
-config/env.rb
+#config/env.rb
 
 Wormhole::Instance.config_backend = Wormhole::Config # this will be default
 
@@ -25,9 +25,18 @@ class Controller
 end
 
 
-view:
+#view:
 # this will build a javascript object with every namespace included
 <%= Wormhole::Instance.print( :javascript ) %>
 
 # this will build a javascript object that contains only the foo and bar namespace
 <%= Wormhole::Instance.print( [:foo,:bar], :javascript ) %>
+
+
+
+# notes:
+# Wormhole::Instance should be accessible through a helper method in rails. This will prevent the
+# developer from redundant typing:
+
+wormhole(:foo)  # = Wormhole::Instance.merge(:foo)
+
