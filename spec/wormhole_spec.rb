@@ -144,6 +144,8 @@ describe Wormhole do
 
   describe "self.add_printer" do
     # TODO: how to test in a semantic way, that printers are added
+    # Wormhole::Instance.instance_variable_get("@printers") <-- this will be the dirty way for now :)
+    #    implementation will follow later
   end
 
 end
