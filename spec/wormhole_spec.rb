@@ -142,4 +142,8 @@ describe Wormhole do
 
   end
 
+  describe "self.add_printer" do
+    # TODO: how to test in a semantic way, that printers are added
+  end
+
 end
