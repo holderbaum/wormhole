@@ -35,8 +35,6 @@ describe Wormhole do
   describe "self.create" do
     it "should yield a block with an instance of the constance_backend as argument" do
       @wormhole.create(:foo) do |config|
-        puts "testsss"
-        puts config.class
         config.is_a?(Wormhole::Config).should be_true
       end
     end
