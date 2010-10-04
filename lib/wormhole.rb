@@ -10,4 +10,7 @@ end
 
 require 'wormhole/wormhole'
 require 'wormhole/config'
-require 'wormhole/printer/javascript'
+
+['javascript'].each do |printer|
+  require 'wormhole/printer/'+printer
+end
