@@ -20,6 +20,15 @@ describe Wormhole::Printer::Javascript do
       hash = { :foo => 42, :bar => "fooze" }
       @printer.out( hash ).should == 'var wormhole={};wormhole.bar="fooze";wormhole.foo=42;'
     end
+
+    it "should convert also nested hashs" do
+      hash = {  :foo => 42,
+                :bar =>{
+                  :fooze => "baz"}}
+
+      @printer.out( hash ).should == 'var wormhole={};wormhole.bar={};wormhole.bar.fooze="baz";wormhole.foo=42;'
+      
+    end
   end
 
 end
