@@ -1,1 +1,2 @@
 rvm ree@wormhole
+bundle install
