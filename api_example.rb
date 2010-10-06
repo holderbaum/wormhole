@@ -1,33 +1,40 @@
 
 #config/env.rb
 
+# set config-backend, this class will be instanciated and yielded in a create/merge block
 Wormhole.config_backend = Wormhole::Config # this will be default
 
-Wormhole.add_printer(:javascript, MyJSPrinter) # MyJSPrinter should implement   (String) out( (Hash) )
-# everytime print with :javascript is called, the printers out method will be called with the object Hash as argument
-
-Wormhole.config(:foo).create do |config| # @@instance
-  config.bla = 23
-  config.foo = 42
+# create a global config-namespace, named foo
+Wormhole.create(:foo) do |c|
+  c.bar = 42
+  c.baz = "fooze"
 end
 
 
-
+# some Controller..
 class Controller
-  Wormhole.config(:foo).merge do |config| # Thread.current[:wormhole] ||= Wormhole.instance.dup
-    config.foo = 23
+  # yield a new config-namespace and merge an exisiting namespace-object into it (per-thread persistence)
+  Wormhole.merge(:foo) do |c| 
+    c.bar? # => true
+    c.baz? # => true
+
+    c.baz = "foozefooze"
   end
 
-  Wormhole.config(:bar).merge do |config|
-    config.bar = "fasel"
+  # yield and create a new config-namespace, also just persistent for this thread
+  Wormhole.merge(:bar) do |c|
+    c.foo = "no bar"
   end
 end
 
 
-#view:
+# a random view:
 # this will build a javascript object with every namespace included
-<%= Wormhole.config.print( :javascript ) %>
+Wormhole.to_javascript
 
-# this will build a javascript object that contains only the foo and bar namespace
-<%= Wormhole.config(:foo).print( :javascript ) %>
+# this will build a javascript object that contains only the foo namespace
+Wormhole.to_javascript(:foo)
+
+# this will also build a javascript object, but with several namespaces
+Wormhole.to_javascript(:foo, :bar)
 
