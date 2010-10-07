@@ -32,7 +32,9 @@ module Wormhole
       # @yield [config_backend.new] new config_backend instance 
       # @return [config_backend.new] the manipulated config_backend instance
       def create(namespace)
-        yield(@namespaces[namespace] ||= config_backend.new)
+        @namespaces[namespace] ||= config_backend.new
+        yield(@namespaces[namespace]) if block_given?
+        @namespaces[namespace]
       end
 
 
