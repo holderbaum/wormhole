@@ -57,6 +57,11 @@ describe Wormhole do
       end
       instance.should == ret
     end
+    
+    it "should return a config-backend instance if it's called without a block" do
+      @wormhole.create(:foo).is_a?(Wormhole::Config).should be_true
+      
+    end
   end
 
   describe "self.merge" do
@@ -140,6 +145,14 @@ describe Wormhole do
       ret.should == instance
     end
 
+    it "should return the yielded config-backend instance" do
+      instance = nil
+      @wormhole.create(:foo) do |c|
+        instance = c
+      end
+
+      @wormhole.merge(:foo).should == instance
+    end
   end
 
   describe "self.add_printer" do
