@@ -44,8 +44,11 @@ module Wormhole
       def merge(namespace)
         @namespaces ||= {}
         Thread.current[:wormhole] ||= {}
-        Thread.current[:wormhole][namespace] ||= config_backend.new
-        Thread.current[:wormhole][namespace].merge!(@namespaces[namespace]) if @namespaces[namespace]
+
+        if Thread.current[:wormhole][namespace].nil?
+          Thread.current[:wormhole][namespace] = config_backend.new
+          Thread.current[:wormhole][namespace].merge!(@namespaces[namespace]) if @namespaces[namespace]
+        end
 
         yield( Thread.current[:wormhole][namespace] ) if block_given?
         Thread.current[:wormhole][namespace]
