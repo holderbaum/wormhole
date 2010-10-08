@@ -11,6 +11,3 @@ end
 require 'wormhole/wormhole'
 require 'wormhole/config'
 
-['javascript'].each do |printer|
-  require 'wormhole/printer/'+printer
-end
