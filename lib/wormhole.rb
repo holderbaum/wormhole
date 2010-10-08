@@ -6,8 +6,18 @@ module Wormhole #:nodoc:
 
     STRING = [MAJOR, MINOR, BUILD].join('.')
   end
+
+  module WormholeDispatcher
+    def wormhole
+      Wormhole::Instance
+    end
+  end
 end
 
 require 'wormhole/wormhole'
 require 'wormhole/config'
 
+
+class Object
+  include Wormhole::WormholeDispatcher
+end
