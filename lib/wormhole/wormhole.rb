@@ -61,13 +61,20 @@ module Wormhole
       def to_javascript(*args)
         hash = {}
 
-        Thread.current[:wormhole].each do |key, value|
-          hash[key] = value.to_hash
-        end if Thread.current[:wormhole]
+        if args.size == 0
+          Thread.current[:wormhole].each do |key, value|
+            hash[key] = value.to_hash
+          end if Thread.current[:wormhole]
 
-        @namespaces.each do |key, value|
-          hash[key] = value.to_hash unless hash[key]
-        end if @namespaces
+          @namespaces.each do |key, value|
+            hash[key] = value.to_hash unless hash[key]
+          end if @namespaces
+        else
+          args.each do |key|
+            hash[key] = Thread.current[:wormhole][key].to_hash if Thread.current[:wormhole] and Thread.current[:wormhole][key]
+            hash[key] = @namespaces[key].to_hash if @namespaces[key] and hash[key].nil?
+          end
+        end
 
         "var Wormhole = #{JSON.generate hash};"
       end
