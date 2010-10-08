@@ -183,11 +183,12 @@ describe Wormhole do
   end
 
   describe "to_javascript" do
+
     def cut_json(javascript, object = "Wormhole")
       JSON.parse /^var\s*#{object}\s*=\s*(\{.*\});$/.match(javascript)[1]
     end
 
-    it "should create an empty javascript object when all namespaces are empty" do
+    it "should create an empty javascript object if no namespaces where created" do
       cut_json(@wormhole.to_javascript).should == {}
     end
 
