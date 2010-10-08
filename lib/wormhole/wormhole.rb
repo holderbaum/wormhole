@@ -1,8 +1,6 @@
 module Wormhole
   class Instance
 
-    @namespaces = {}
-
     class << self # change self scope to singleton of Instance
 
       # returns the class that will be used as configuration-container
@@ -32,6 +30,7 @@ module Wormhole
       # @yield [config_backend.new] new config_backend instance 
       # @return [config_backend.new] the manipulated config_backend instance
       def create(namespace)
+        @namespaces ||= {}
         @namespaces[namespace] ||= config_backend.new
         yield(@namespaces[namespace]) if block_given?
         @namespaces[namespace]
@@ -45,9 +44,13 @@ module Wormhole
       # @yield [config_backend.new] new config_backend instance with merged main config_backend instance
       # @return [config_backend.new] the manipulated config_backend instance
       def merge(namespace)
+        @namespaces ||= {}
         Thread.current[:wormhole] ||= {}
-        
-        yield( Thread.current[:wormhole][namespace] ||= config_backend.new.merge!(@namespaces[namespace]) )
+        Thread.current[:wormhole][namespace] ||= config_backend.new
+        Thread.current[:wormhole][namespace].merge!(@namespaces[namespace]) if @namespaces[namespace]
+
+        yield( Thread.current[:wormhole][namespace] ) if block_given?
+        Thread.current[:wormhole][namespace]
       end
 
     end
