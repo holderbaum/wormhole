@@ -30,10 +30,8 @@ module Wormhole
       # @yield [config_backend.new] new config_backend instance 
       # @return [config_backend.new] the manipulated config_backend instance
       def create(namespace)
-        @namespaces ||= {}
-        @namespaces[namespace] ||= config_backend.new
-        yield(@namespaces[namespace]) if block_given?
-        @namespaces[namespace]
+        yield(namespaces(namespace)) if block_given?
+        namespaces(namespace)
       end
 
 
@@ -51,6 +49,12 @@ module Wormhole
 
         yield( Thread.current[:wormhole][namespace] ) if block_given?
         Thread.current[:wormhole][namespace]
+      end
+      
+      private
+      def namespaces(key)
+        @namespaces ||= {}
+        @namespaces[key] ||= config_backend.new
       end
 
     end
