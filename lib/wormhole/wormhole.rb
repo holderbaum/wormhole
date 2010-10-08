@@ -59,6 +59,17 @@ module Wormhole
       # @param [Symbol] namespaces to include
       # @return [String] namespaces as javascript-code
       def to_javascript(*args)
+        hash = {}
+
+        Thread.current[:wormhole].each do |key, value|
+          hash[key] = value.to_hash
+        end if Thread.current[:wormhole]
+
+        @namespaces.each do |key, value|
+          hash[key] = value.to_hash unless hash[key]
+        end if @namespaces
+
+        "var Wormhole = #{JSON.generate hash};"
       end
 
       private
