@@ -188,6 +188,7 @@ describe Wormhole do
     end
 
     it "should create an empty javascript object when all namespaces are empty" do
+      cut_json(@wormhole.to_javascript).should == {}
     end
 
 #  JSON.parse JSON.generate( {:foo => "bar", :baz => {:om => "nom"}} )
