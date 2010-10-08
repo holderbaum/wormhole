@@ -47,6 +47,20 @@ module Wormhole
       end
 
 
+      # creates a javascript object via json. The object gets the following structure:
+      #   Wormhole.namespace.config.object # => some value
+      #   Wormhole.other_namespaces.config.object # => another value
+      #
+      # Optional you can pass one or more namespace-symbols as argument. If one or more
+      # namespaces are given, only these will be included in the created javscript object.
+      #
+      # If no namespace is passed, every namespace will be included.
+      #
+      # @param [Symbol] namespaces to include
+      # @return [String] namespaces as javascript-code
+      def to_javascript(*args)
+      end
+
       private
       def namespaces(key)
         @namespaces ||= {}
