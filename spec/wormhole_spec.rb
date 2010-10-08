@@ -6,10 +6,6 @@ describe Wormhole do
     @wormhole = Wormhole::Instance.dup
   end
 
-  after(:each) do
-    @wormhole = nil
-  end
-
   it 'should have a VERSION' do
     Wormhole::VERSION::STRING.should == "0.0.1"
   end
