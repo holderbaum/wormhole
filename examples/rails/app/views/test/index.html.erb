@@ -1,0 +1,10 @@
+<%-
+  wormhole.merge(:config) do |c|
+    c.test = 12
+  end
+-%>
+<script> <%= wormhole.to_javascript %> </script>
+
+<script>
+  alert( Wormhole.config.test );
+</script>
