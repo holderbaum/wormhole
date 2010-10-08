@@ -191,7 +191,14 @@ describe Wormhole do
       cut_json(@wormhole.to_javascript).should == {}
     end
 
-#  JSON.parse JSON.generate( {:foo => "bar", :baz => {:om => "nom"}} )
+    it "should create a javascript object with the namespace as the first key" do
+      @wormhole.create(:foo) do |config|
+        config.bar = "baz"
+      end
+
+      cut_json( @wormhole.to_javascript ).should == { "foo" => { "bar" => "baz" } }
+    end
+
   end
 
 end
