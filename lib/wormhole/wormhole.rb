@@ -42,22 +42,27 @@ module Wormhole
       # @yield [config_backend.new] new config_backend instance with merged main config_backend instance
       # @return [config_backend.new] the manipulated config_backend instance
       def merge(namespace)
-        @namespaces ||= {}
-        Thread.current[:wormhole] ||= {}
+        yield( current_namespaces(namespace) ) if block_given?
 
-        if Thread.current[:wormhole][namespace].nil?
-          Thread.current[:wormhole][namespace] = config_backend.new
-          Thread.current[:wormhole][namespace].merge!(@namespaces[namespace]) if @namespaces[namespace]
-        end
-
-        yield( Thread.current[:wormhole][namespace] ) if block_given?
-        Thread.current[:wormhole][namespace]
+        current_namespaces(namespace)
       end
-      
+
+
       private
       def namespaces(key)
         @namespaces ||= {}
         @namespaces[key] ||= config_backend.new
+      end
+
+      def current_namespaces(key)
+        Thread.current[:wormhole] ||= {}
+
+        if Thread.current[:wormhole][key].nil?
+          Thread.current[:wormhole][key] = config_backend.new
+          Thread.current[:wormhole][key].merge!(namespaces(key))
+        end
+
+        Thread.current[:wormhole][key]
       end
 
     end
