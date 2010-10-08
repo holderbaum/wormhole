@@ -33,7 +33,7 @@ describe Wormhole do
   end
 
   describe "self.create" do
-    it "should yield a block with an instance of the constance_backend as argument" do
+    it "should yield a block with an instance of the constant_backend as argument" do
       @wormhole.create(:foo) do |config|
         config.is_a?(Wormhole::Config).should be_true
       end
@@ -50,6 +50,19 @@ describe Wormhole do
       end
     end
 
+    instance = nil
+    it "should create a namespace" do
+      @wormhole.create(:foo) do |config|
+        instance = config
+      end
+    end
+
+    it "should not be the same namespace in a following test" do
+      @wormhole.create(:foo) do |config|
+        instance.should_not == config
+      end
+    end
+
     it "should return the yielded config-backend instance" do
       instance = nil
       ret = @wormhole.create(:foo) do |config|
@@ -58,9 +71,8 @@ describe Wormhole do
       instance.should == ret
     end
     
-    it "should return a config-backend instance if it's called without a block" do
+    it "should return the config-backend instance if no block is given" do
       @wormhole.create(:foo).is_a?(Wormhole::Config).should be_true
-      
     end
   end
 
@@ -137,21 +149,23 @@ describe Wormhole do
     end
 
     it "should return the yielded object instance" do
-      instance = nil
-      ret = @wormhole.merge(:foo) do |config|
-        instance = config
-      end
-
-      ret.should == instance
+      Thread.new do
+        instance = nil
+        ret = @wormhole.merge(:foo) do |config|
+          instance = config
+        end
+        ret.should == instance
+      end.join # thread
     end
 
-    it "should return the yielded config-backend instance" do
-      instance = nil
-      @wormhole.create(:foo) do |c|
-        instance = c
-      end
+    it "should return the object instance when no block is given" do
+      Thread.new do
+        ret = @wormhole.merge(:foo) do |config|
 
-      @wormhole.merge(:foo).should == instance
+        end
+
+        ret.should == @wormhole.merge(:foo)
+      end
     end
   end
 
