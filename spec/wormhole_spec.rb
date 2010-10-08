@@ -163,6 +163,23 @@ describe Wormhole do
         ret.should == @wormhole.merge(:foo)
       end
     end
+
+    it "should only merge the first time with the created namespace" do
+      @wormhole.create(:foo) do |config|
+        config.baz = "fooze"
+      end
+
+      Thread.new do
+        @wormhole.merge(:foo) do |config|
+          config.baz = "nofooze"
+        end
+
+        @wormhole.merge(:foo) do |config|
+          config.baz.should == "nofooze"
+        end
+      end.join # thread
+      
+    end
   end
 
 end
