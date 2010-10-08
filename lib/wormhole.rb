@@ -14,6 +14,7 @@ module Wormhole #:nodoc:
   end
 end
 
+require 'json'
 require 'wormhole/wormhole'
 require 'wormhole/config'
 
