@@ -43,7 +43,6 @@ module Wormhole
       # @return [config_backend.new] the manipulated config_backend instance
       def merge(namespace)
         yield( current_namespaces(namespace) ) if block_given?
-
         current_namespaces(namespace)
       end
 
