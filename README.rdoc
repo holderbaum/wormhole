@@ -2,7 +2,57 @@
 
 == What the heck is this?
 
-description will follow..
+Wormhole is a simple concept, to provide a solution for getting configuration and runtime objects in a clean way from the rails-server-side into the javascript-client-side.
+
+The Wormhole-object can contain several namespaces. Every namespace represents a configuration-object:
+
+  wormhole.create(:my_namespace) do |c|
+    # c is a config-object
+    c.key_1 = "value"
+    c.key_2 = 42
+  end
+
+or:
+
+  c = wormhole.create(:my_other_namespace)
+  c.key_1 = "value"
+  c.key_2 = 42
+
+
+These initial namespace creations could be placed in the environment.rb or in another, perhaps self created file, that gets sourced by the rails-server on bootup.
+
+Now, in every view, you can simply call:
+
+  <script>wormhole.to_javascript</script>
+
+This will create the sourcecode for a javascript-object. In case of our two namespaces, the object would be used as followed:
+
+ <script>
+   Wormhole.my_namespace.key_2 // returns 42
+   Wormhole.my_other_namespace.key_1 // returns "value"
+ </script>
+
+
+Beside this initial configuration, every namespace can be accessed and edited on a per-request and non-persistant way:
+
+  # in an action
+  wormhole.merge(:my_namespace) do |c|
+    c.key_2 = 43
+  end
+
+or:
+
+  c = wormhole.merge(:my_namespace)
+
+In the correspondingly view, key_2 will now return the new value. But this change is not permanent, the underlying namespace is never mutable.
+
+== The omnious config-object
+
+will follow..
+
+== Building the Gem
+
+  rake gem
 
 == Testing
 
