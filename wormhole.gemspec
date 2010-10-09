@@ -19,4 +19,5 @@ Gem::Specification.new do |s|
   s.requirements << 'none'
 
   s.add_dependency('rspec', '~> 1.3.0')
+  s.add_dependency('json', '>= 0')
 end
