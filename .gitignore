@@ -3,3 +3,7 @@ pkg
 .bundle
 doc
 .yardoc
+examples/rails/doc
+examples/rails/tmp
+examples/rails/log
+examples/rails/config/database.yml
