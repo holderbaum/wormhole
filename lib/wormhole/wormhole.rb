@@ -30,7 +30,7 @@ module Wormhole
       # @yield [config_backend.new] new config_backend instance 
       # @return [config_backend.new] the manipulated config_backend instance
       def create(namespace)
-        n = find_or_create_global_namespace(namespace)
+        n = global_namespaces[namespace]
         yield(n) if block_given?
         n
       end
@@ -43,7 +43,7 @@ module Wormhole
       # @yield [config_backend.new] new config_backend instance with merged main config_backend instance
       # @return [config_backend.new] the manipulated config_backend instance
       def merge(namespace)
-        n = find_or_create_current_namespace(namespace)
+        n = current_namespaces[namespace]
         yield(n) if block_given?
         n
       end
@@ -65,21 +65,13 @@ module Wormhole
 
       private
 
-      def find_or_create_global_namespace(namespace)
-        namespaces[namespace] ||= config_backend.new
-      end
-
-      def find_or_create_current_namespace(namespace)
-        current_namespaces[namespace] ||= config_backend.new.merge!( find_or_create_global_namespace(namespace) )
-      end
-
       # accessors
-      def namespaces
-        @namespaces ||= {}
+      def global_namespaces
+        @global_namespaces ||= Hash.new { |hash, namespace| hash[namespace] = config_backend.new }
       end
 
       def current_namespaces
-        Thread.current[:wormhole] ||= {}
+        Thread.current[:wormhole] ||= Hash.new { |hash, namespace| hash[namespace] = config_backend.new.merge!(global_namespaces[namespace]) }
       end
 
     end
