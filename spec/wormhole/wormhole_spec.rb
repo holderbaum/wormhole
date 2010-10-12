@@ -6,10 +6,6 @@ describe Wormhole do
     @wormhole = Wormhole::Instance.dup
   end
 
-  it 'should have a VERSION' do
-    Wormhole::VERSION::STRING.should == "0.0.1"
-  end
-
   describe "rspec test environment" do
 
     it "set the config_backend value" do
