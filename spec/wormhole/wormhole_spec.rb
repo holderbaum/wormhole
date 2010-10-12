@@ -180,6 +180,24 @@ describe Wormhole do
       end
 
     end
+
+    it "should handle 2 Instance in one thread seperately" do
+      instance1 = Wormhole::Instance.new
+      instance1.create(:foo).bar = 23
+      instance2 = Wormhole::Instance.new
+      instance2.create(:foo).bar = 42
+
+      threaded do
+        instance1.merge(:foo).bar = 42
+      end
+
+      threaded do
+        instance2.merge(:foo).bar = 23
+      end
+
+      instance1.to_hash.should == { :foo => { :bar => 23 } }
+      instance2.to_hash.should == { :foo => { :bar => 42 } }
+    end
   end
 
 end
