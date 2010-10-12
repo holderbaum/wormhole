@@ -1,11 +1,9 @@
 require 'spec_helper'
 
-if false
-
 describe Wormhole do
 
   before(:each) do
-    @wormhole = Wormhole::Instance.dup
+    @wormhole = Wormhole::Instance.new
   end
 
   describe "to_javascript without arguments" do
@@ -93,6 +91,3 @@ describe Wormhole do
   end
 
 end
-
-
-end # disable

@@ -9,7 +9,7 @@ module Wormhole #:nodoc:
 
   module WormholeDispatcher
     def wormhole
-      Wormhole::Instance
+      @instance ||= Wormhole::Instance.new
     end
   end
 end

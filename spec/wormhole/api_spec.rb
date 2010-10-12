@@ -13,7 +13,7 @@ describe "Environment" do
     # through wormhole.
     # This makes any further API-testing futile
     it "should return the Wormhole::Instance class" do
-      wormhole.should be(Wormhole::Instance)
+      wormhole.should be_a(Wormhole::Instance)
     end
 
   end

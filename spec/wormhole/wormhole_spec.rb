@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Wormhole do
 
   before(:each) do
-    @wormhole = Wormhole::Instance.dup
+    @wormhole = Wormhole::Instance.new
   end
 
   it 'should have a VERSION' do
