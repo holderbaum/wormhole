@@ -59,44 +59,9 @@ module Wormhole
       # @param [Symbol] namespaces to include
       # @return [String] namespaces as javascript-code
       def to_javascript(*args)
-        hash = {}
-
-        if args.size == 0
-          Thread.current[:wormhole].each do |key, value|
-            hash[key] = value.to_hash
-          end if Thread.current[:wormhole]
-
-          @namespaces.each do |key, value|
-            hash[key] = value.to_hash unless hash[key]
-          end if @namespaces
-        else
-          args.each do |key|
-            hash[key] = Thread.current[:wormhole][key].to_hash if Thread.current[:wormhole] and Thread.current[:wormhole][key]
-            hash[key] = @namespaces[key].to_hash if @namespaces[key] and hash[key].nil?
-          end
-        end
-
-        "var Wormhole = #{JSON.generate hash};"
       end
 
       private
-      def namespaces(key)
-        @namespaces ||= {}
-        @namespaces[key] ||= config_backend.new
-      end
-
-      def current_namespaces(key)
-        Thread.current[:wormhole] ||= {}
-
-        if Thread.current[:wormhole][key].nil?
-          Thread.current[:wormhole][key] = config_backend.new
-          Thread.current[:wormhole][key].merge!(namespaces(key))
-        end
-
-        Thread.current[:wormhole][key]
-      end
-
-    end
   end
 
 end
