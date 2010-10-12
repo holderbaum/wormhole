@@ -75,11 +75,11 @@ describe Wormhole do
   describe "self.merge" do
     it "should yield a block with an instance of the config_backend as an argument" do
 
-      Thread.new do
+      threaded do
         @wormhole.merge(:foo) do |config|
           config.is_a?(Wormhole::Config).should be_true
         end
-      end.join
+      end
 
     end
 
@@ -89,18 +89,18 @@ describe Wormhole do
         instance = config
       end
 
-      Thread.new do
+      threaded do
         @wormhole.merge(:foo) do |config|
           instance.should_not == config
         end
-      end.join # thread
+      end
 
     end
 
     it "should yield the same config_backend instances under the same namespace in the same thread" do
       instance = nil
 
-      Thread.new do
+      threaded do
         @wormhole.merge(:foo) do |config|
           instance = config
         end
@@ -108,7 +108,7 @@ describe Wormhole do
         @wormhole.merge(:foo) do |config|
           instance.should == config
         end
-      end.join # thread
+      end
 
     end
 
@@ -116,17 +116,17 @@ describe Wormhole do
       instance_1 = nil
       instance_2 = nil
 
-      Thread.new do
+      threaded do
         @wormhole.merge(:foo) do |config|
           instance_1 = config
         end
-      end.join # thread
+      end
 
-      Thread.new do
+      threaded do
         @wormhole.merge(:foo) do |config|
           instance_2 = config
         end
-      end.join # thread
+      end
 
       instance_1.should_not == instance_2
     end
@@ -136,26 +136,26 @@ describe Wormhole do
         config.bar = "fooze"
       end
 
-      Thread.new do
+      threaded do
         @wormhole.merge(:foo) do |config|
           config.bar.should == "fooze"
         end
-      end.join # thread
+      end
 
     end
 
     it "should return the yielded object instance" do
-      Thread.new do
+      threaded do
         instance = nil
         ret = @wormhole.merge(:foo) do |config|
           instance = config
         end
         ret.should == instance
-      end.join # thread
+      end
     end
 
     it "should return the object instance when no block is given" do
-      Thread.new do
+      threaded do
         ret = @wormhole.merge(:foo) do |config|
 
         end
@@ -169,7 +169,7 @@ describe Wormhole do
         config.baz = "fooze"
       end
 
-      Thread.new do
+      threaded do
         @wormhole.merge(:foo) do |config|
           config.baz = "nofooze"
         end
@@ -177,7 +177,7 @@ describe Wormhole do
         @wormhole.merge(:foo) do |config|
           config.baz.should == "nofooze"
         end
-      end.join # thread
+      end
 
     end
   end

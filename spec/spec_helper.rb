@@ -4,8 +4,8 @@ def cut_json(javascript, object = "Wormhole")
   JSON.parse /^var\s*#{object}\s*=\s*(\{.*\});$/.match(javascript)[1]
 end
 
-def threaded_it(*args, &block)
+def threaded
   Thread.new do
-    it(*args, &block)
+    yield
   end.join
 end

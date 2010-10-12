@@ -37,13 +37,13 @@ describe Wormhole do
         config.bar = 42
       end
 
-      Thread.new do
+      threaded do
         @wormhole.merge(:foo) do |config|
           config.baz = 43
         end
 
         cut_json( @wormhole.to_javascript ).should == { "foo" => { "bar" => 42, "baz" => 43 } }
-      end.join
+      end
     end
 
   end
@@ -67,13 +67,13 @@ describe Wormhole do
         config.bar = 42
       end
 
-      Thread.new do
+      threaded do
         @wormhole.merge(:foo) do |config|
           config.baz = 43
         end
 
         cut_json( @wormhole.to_javascript(:foo) ).should == { "foo" => { "bar" => 42, "baz" => 43 } }
-      end.join
+      end
       
     end
 
