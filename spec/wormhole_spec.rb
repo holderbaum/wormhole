@@ -7,7 +7,7 @@ describe Wormhole do
   end
 
   it 'should have a VERSION' do
-    Wormhole::VERSION::STRING.should == "0.0.1"
+    Wormhole::VERSION::STRING.should == "1.0.0"
   end
 
   describe "rspec test environment" do
