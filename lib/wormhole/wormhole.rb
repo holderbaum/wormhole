@@ -50,7 +50,22 @@ module Wormhole
       n
     end
 
-    # TODO document me
+    # creates a ruby-hash from the wormhole object. Each of the different config-objects receives a to_hash,
+    # the result will be nested into a key, named according to the namespace:
+    #
+    #   Wormhole.create(:foo).bar = 42
+    #   Wormhole.create(:fooze).baz = 23
+    #
+    #   Wormhole.to_hash # => {:foo => {:bar => 42}, :fooze => {:baz => 23}}
+    #
+    # in addition, to_hash accepts the namespaces it should render as arguments:
+    #
+    #   Wormhole.to_hash(:foo)         # => {:foo => {:bar => 42}}
+    #   Wormhole.to_hash(:foo, :fooze) # => {:foo => {:bar => 42}, :fooze => {:baz => 23}}
+    #
+    # @param [Symbol] numerous namespaces that should be rendered only as symbols
+    # @return [Hash] the namespaces as a ruby-hash
+    #
     def to_hash(*namespaces)
       hash = {}
       namespaces = global_namespaces.keys if namespaces.empty?

@@ -200,4 +200,88 @@ describe Wormhole do
     end
   end
 
+  describe "to_hash without argument" do
+    
+    it "should create an empty hash if no namespaces where created" do
+      @wormhole.to_hash.should == {}
+    end
+
+    it "should create a hash with the namespace as the first key" do
+      @wormhole.create(:foo) do |config|
+        config.bar = "baz"
+      end
+
+      @wormhole.to_hash.should == { :foo => { :bar => "baz" } }
+    end
+
+    it "should create a hash from all namespaces" do
+      @wormhole.create(:foo) do |config|
+        config.fooze = 42
+      end
+
+      @wormhole.create(:bar) do |config|
+        config.baz = 42
+      end
+
+      @wormhole.to_hash.should == { :foo => { :fooze => 42 }, :bar => { :baz => 42 } }
+    end
+
+    it "should create a hash under consideration of the merge calls" do
+      @wormhole.create(:foo) do |config|
+        config.bar = 42
+      end
+
+      threaded do
+        @wormhole.merge(:foo) do |config|
+          config.baz = 43
+        end
+
+        @wormhole.to_hash.should == { :foo => { :bar => 42, :baz => 43 } }
+      end
+    end
+  end
+
+
+  describe "to_hash with arguments" do
+    
+    it "should create a hash containing only the via args given namespace" do
+      @wormhole.create(:foo) do |config|
+        config.bar = 42
+      end
+
+      @wormhole.create(:bar) do |config|
+        config.baz = 43
+      end
+
+      @wormhole.to_hash(:foo).should == { :foo => { :bar => 42 } }
+    end
+
+    it "should create a hash containing only the via args given namespaces under consideration of the merge calls" do
+      @wormhole.create(:foo) do |config|
+        config.bar = 42
+      end
+
+      threaded do
+        @wormhole.merge(:foo) do |config|
+          config.baz = 43
+        end
+
+        @wormhole.to_hash(:foo).should == { :foo => { :bar => 42, :baz => 43 } }
+      end
+      
+    end
+
+    it "should create a hash containing two given namespaces" do
+      @wormhole.create(:foo) do |config|
+        config.fooze = 42
+      end
+
+      @wormhole.create(:bar) do |config|
+        config.baz = 42
+      end
+
+      @wormhole.to_hash(:bar, :foo).should == { :foo => { :fooze => 42 }, :bar => { :baz => 42 } }
+    end
+  end
+
 end
