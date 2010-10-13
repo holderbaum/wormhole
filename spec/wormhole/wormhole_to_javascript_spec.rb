@@ -30,7 +30,7 @@ describe Wormhole do
       end
 
       cut_json( @wormhole.to_javascript ).should == {
-        "foo" => {"bar" => {"fooze" => 42}},
+        "foo" => {"bar" => 42},
         "bar" => {"baz" => 5}
       }
     end
