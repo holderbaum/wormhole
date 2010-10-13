@@ -12,7 +12,7 @@ describe "Environment" do
     # that the entire Instance functionality is now accessible
     # through wormhole.
     # This makes any further API-testing futile
-    it "should return the Wormhole::Instance class" do
+    it "should return a instance of Wormhole::Instance" do
       wormhole.should be_a(Wormhole::Instance)
     end
 
