@@ -20,6 +20,21 @@ describe Wormhole do
       cut_json( @wormhole.to_javascript ).should == {}
     end
 
+    it "should include every namespace with nesting" do
+      @wormhole.create(:foo) do |c|
+        c.bar = 42
+      end
+
+      @wormhole.create(:bar) do |c|
+        c.baz = 5
+      end
+
+      cut_json( @wormhole.to_javascript ).should == {
+        "foo" => {"bar" => {"fooze" => 42}},
+        "bar" => {"baz" => 5}
+      }
+    end
+
   end
 
   describe "to_javascript with arguments" do
