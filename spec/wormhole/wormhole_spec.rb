@@ -239,6 +239,14 @@ describe Wormhole do
         @wormhole.to_hash.should == { :foo => { :bar => 42, :baz => 43 } }
       end
     end
+
+    it "should create a nested hash" do
+      @wormhole.create(:foo) do |c|
+        c.bar.fooze = 42
+      end
+
+      @wormhole.to_hash.should == { :foo => { :bar => { :fooze => 42 } } }
+    end
   end
 
 
