@@ -19,6 +19,10 @@ describe "Environment" do
   end
 
   describe "API" do
+
+    it "have same wormhole instances" do
+      wormhole.should == Wormhole.wormhole
+    end
   
     it "should enable a perfect story" do
       Wormhole.create(:foo) do |c|

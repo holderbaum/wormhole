@@ -9,20 +9,24 @@ module Wormhole #:nodoc:
 
   module WormholeDispatcher
     def wormhole
-      @instance ||= Wormhole::Instance.new
+      Wormhole.instance
     end
 
     def Wormhole(*args, &block)
-
+      Wormhole.instance.merge(*args, &block)
     end
   end
 
-  def self.create(*args,&block)
-    wormhole.create(*args,&block)
+  def self.instance
+    @instance ||= Wormhole::Instance.new
   end
 
-  def self.to_javascript(*args)
-    wormhole.to_javascript(*args)
+  def self.create(*args, &block)
+    instance.create(*args, &block)
+  end
+
+  def self.to_javascript(*args, &block)
+    instance.to_javascript(*args, &block)
   end
 
 end
