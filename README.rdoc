@@ -23,7 +23,7 @@ These initial namespace creations could be placed in the environment.rb or in an
 
 Now, in every view, you can simply call:
 
-  <script>wormhole.to_javascript</script>
+  <script><%= wormhole.to_javascript %></script>
 
 This will create the sourcecode for a javascript-object. In case of our two namespaces, the object would be used as followed:
 
@@ -36,13 +36,15 @@ This will create the sourcecode for a javascript-object. In case of our two name
 Beside this initial configuration, every namespace can be accessed and edited on a per-request and non-persistant way:
 
   # in an action
-  wormhole.merge(:my_namespace) do |c|
+  Wormhole(:my_namespace) do |c|
     c.key_2 = 43
   end
 
 or:
 
-  c = wormhole.merge(:my_namespace)
+  c = Wormhole(:my_namespace)
+  c.key_2 = 43
+
 
 In the correspondingly view, key_2 will now return the new value. But this change is not permanent, the underlying namespace is never mutable.
 
