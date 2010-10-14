@@ -26,13 +26,24 @@ describe Wormhole do
       end
 
       @wormhole.create(:bar) do |c|
-        c.baz = 5
+        c.baz.fooze = 23
       end
 
-      cut_json( @wormhole.to_javascript ).should == {
-        "foo" => {"bar" => 42},
-        "bar" => {"baz" => 5}
-      }
+      threaded do
+        @wormhole.merge(:bar) do |c|
+          c.baz.foo = 5
+        end
+
+        cut_json( @wormhole.to_javascript ).should == {
+          "foo" => {"bar" => 42},
+          "bar" => {"baz" => {
+            "fooze" => 23,
+            "foo" => 5
+            }
+          }
+        }
+      end
+
     end
 
   end
