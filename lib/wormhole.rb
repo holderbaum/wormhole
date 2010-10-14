@@ -11,6 +11,10 @@ module Wormhole #:nodoc:
     def wormhole
       @instance ||= Wormhole::Instance.new
     end
+
+    def Wormhole(*args, &block)
+
+    end
   end
 end
 
