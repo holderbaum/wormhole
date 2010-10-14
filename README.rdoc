@@ -6,7 +6,7 @@ Wormhole is a simple concept, to provide a solution for getting configuration an
 
 The Wormhole-object can contain several namespaces. Every namespace represents a configuration-object:
 
-  wormhole.create(:my_namespace) do |c|
+  Wormhole.create(:my_namespace) do |c|
     # c is a config-object
     c.key_1 = "value"
     c.key_2 = 42
@@ -14,7 +14,7 @@ The Wormhole-object can contain several namespaces. Every namespace represents a
 
 or:
 
-  c = wormhole.create(:my_other_namespace)
+  c = Wormhole.create(:my_other_namespace)
   c.key_1 = "value"
   c.key_2 = 42
 
@@ -23,7 +23,7 @@ These initial namespace creations could be placed in the environment.rb or in an
 
 Now, in every view, you can simply call:
 
-  <script><%= wormhole.to_javascript %></script>
+  <script><%= Wormhole.to_javascript %></script>
 
 This will create the sourcecode for a javascript-object. In case of our two namespaces, the object would be used as followed:
 
