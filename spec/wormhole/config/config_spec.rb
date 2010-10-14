@@ -192,6 +192,16 @@ describe Wormhole::Config do
       
       ret.should == @config 
     end
+
+    it "should merge on an empty object" do
+      merge = Wormhole::Config.new
+      merge.foo = "bar"
+      merge.bar.fooze = 42
+      @config.merge!(merge)
+
+      @config.foo.should == "bar"
+      @config.bar.fooze.should == 42
+    end
   end
 
 end
