@@ -16,6 +16,11 @@ module Wormhole #:nodoc:
 
     end
   end
+
+  def self.create(*args,&block)
+    wormhole.create(*args,&block)
+  end
+
 end
 
 require 'json'
