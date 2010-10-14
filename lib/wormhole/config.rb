@@ -45,6 +45,7 @@ module Wormhole
     def merge!(config)
       config.each do |key,value|
         if value.is_a? Config
+          @hash[key] ||= Config.new
           @hash[key].merge! value
         else
           @hash[key] = value
